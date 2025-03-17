@@ -1,131 +1,109 @@
 package de.ostfalia.aud.ss25.a0;
+
+import de.ostfalia.aud.ss25.base.Group;
+import de.ostfalia.aud.ss25.base.IMember;
+
 import java.time.LocalDate; //Importiert LocalDate, um später darauf zuzugreifen.
+
 /**
- * @description 
- * @author 
- * @version
+ * @author Rick Kunze, Robin Iffland
+ * @version 1.0
+ * @Description Klasse zum Speichern von Mitgliedern und deren Daten.
  */
-public class Member implements IMember 
-{
+public class Member implements IMember {
     private String id;              //Deklaration der Klassenattribute, um die jeweiligen Mitgliedsdaten zu speichern.
     private LocalDate joiningdate;
     private String surname;
     private String forename;
     private Group group;
     private boolean newsletter;
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-    public Member(String line)
-    {
-        String[] sections = line.split(";");    //Teilt den übergebenen String in die einzelnen Daten auf, Trennzeichen Semikolon. Durch die trim-Methode, werden führende
-                                                     //und hinten drangehangene Leerzeichen entfernt.
+
+    /**
+     * @param line (Übergibt eine eingelesene Zeile, welche die Daten zu jeweils einem Member enthält)
+     */
+    public Member(String line) {
+        String[] sections = line.split(";");    //Teilt den übergebenen String in die einzelnen Daten auf, Trennzeichen Semikolon.
         this.id = sections[0].trim();       //ID wird einfach als String übernommen.
         this.joiningdate = LocalDate.parse(sections[1].trim()); //Der Datum-String wird in ein Datum konvertiert.
         this.surname = sections[2].trim();  //...
         this.forename = sections[3].trim(); //...
         this.group = Group.valueOf(sections[4].trim()); //Der String für die Gruppe wird in den passenden Enum-Wert konvertiert.
-        this.newsletter = Boolean.valueOf(sections[5].trim()); //Der String für den Newsletter wird in einen boolean-Wert konvertiert.
-        }
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-        public String getId()
-        { //Gibt die ID zurück.
-            return this.id;
-        }
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-        public LocalDate getJoiningdate()
-        {  //Gibt das Beitrittsdatum zurück.
-            return this.joiningdate;
-        }
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-        public String getSurname()
-        { //Gibt den Namen zurück.
-            return this.surname;
-        }
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-        public String getForename()
-        { //Gibt den Vornamen zurück.
-            return this.forename;
-        }
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-        public Group getGroup()
-        { //Gibt die jeweilige Gruppe zurück.
-            return this.group;
-        }
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-        public boolean hasNewsletter()
-        { //Gibt zurück, ob der Newsletter abonniert wurde.
-            return this.newsletter;
-        }
-        
-        @Override
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-        public boolean equals(Object o)
-        {    //Gibt zurück, ob es sich um den gleichen Member handelt.
-            Member objectToCompare = (Member) o;    //Das Casten war nötig, um auf die Klassenmethode getId() zuzugreifen.
-            return this.id.toLowerCase().equals(objectToCompare.getId().toLowerCase());
-        }
-        
-        @Override   //Gibt die Daten im CSV-Format zurück.
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-        public String toString()
-        {
-            return String.format("%s;%s;%s;%s;%s;%s", this.id,this.joiningdate.toString(),this.surname,this.forename,this.group.toString(),Boolean.toString(this.newsletter));
-        }
-        
-        @Override
-  /**
-   * @param 
-   * @precondition 
-   * @postcondition
-   * @return 
-   */
-        public int compareTo(IMember o) 
-        {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
-        }
+        this.newsletter = Boolean.parseBoolean(sections[5].trim()); //Der String für den Newsletter wird in einen boolean-Wert konvertiert.
     }
+
+    /**
+     * @return this.id (Die ID des Members)
+     */
+    public String getId() { //Gibt die ID zurück.
+        return this.id;
+    }
+
+    /**
+     * @return this.joiningdate (Das Beitrittsdatum des Members)
+     */
+
+    public LocalDate getJoiningdate() {  //Gibt das Beitrittsdatum zurück.
+        return this.joiningdate;
+    }
+
+    /**
+     * @return this.surname (Gibt den Namen des Members zurück)
+     */
+    public String getSurname() { //Gibt den Namen zurück.
+        return this.surname;
+    }
+
+    /**
+     * @return this.surname (Gibt den Vornamen des Nutzers zurück)
+     */
+    public String getForename() { //Gibt den Vornamen zurück.
+        return this.forename;
+    }
+
+    /**
+     * @return this.group (Gibt die Membergruppe zurück)
+     */
+    public Group getGroup() { //Gibt die jeweilige Gruppe zurück.
+        return this.group;
+    }
+
+    /**
+     * @return this.newsletter (Gibt zurück, ob der Member den Newsletter abonniert hat)
+     */
+    public boolean hasNewsletter() { //Gibt zurück, ob der Newsletter abonniert wurde.
+        return this.newsletter;
+    }
+
+    @Override
+    /**
+     * @param o (Stellt ein anderes Member-Objekt dar)
+     * @return boolean (Prüft auf Gleichheit der ID und gibt den entsprechenden Boolean-Wert zurück)
+     */
+    public boolean equals(Object o) {    //Gibt zurück, ob es sich um den gleichen Member handelt.
+        Member objectToCompare = (Member) o;    //Das Casten war nötig, um auf die Klassenmethode getId() zuzugreifen.
+        return this.id.toLowerCase().equals(objectToCompare.getId().toLowerCase());
+    }
+
+    @Override   //Gibt die Daten im CSV-Format zurück.
+    /**
+     * @return String (Gibt die Zusammenfassung der Memberdaten als String zurück)
+     */
+    public String toString() {
+        return String.format("%s;%s;%s;%s;%s;%s",
+                this.id,
+                this.joiningdate.toString(),
+                this.surname,
+                this.forename,
+                this.group.toString(),
+                Boolean.toString(this.newsletter));
+    }
+
+    @Override
+    /**
+     * @param o (Objekt der Klasse Member)
+     * @return Integer (wird in späterer Aufgabe implementiert)
+     */
+    public int compareTo(IMember o) {
+        throw new UnsupportedOperationException("Unimplemented method 'compareTo'"); //Funktion wird in späterer Aufgabe implementiert.
+    }
+}
