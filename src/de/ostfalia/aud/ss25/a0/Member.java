@@ -106,4 +106,7 @@ public class Member implements IMember {
     public int compareTo(IMember o) {
         throw new UnsupportedOperationException("Unimplemented method 'compareTo'"); //Funktion wird in späterer Aufgabe implementiert.
     }
+    public int hashCode(){ 
+        return 0;
+    }
 }
