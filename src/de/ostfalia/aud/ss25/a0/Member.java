@@ -74,7 +74,7 @@ public class Member implements IMember {
         return this.newsletter;
     }
 
-    @Override
+    @Override aaaaa
     /**
      * @param o (Stellt ein anderes Member-Objekt dar)
      * @return boolean (Prüft auf Gleichheit der ID und gibt den entsprechenden Boolean-Wert zurück)
