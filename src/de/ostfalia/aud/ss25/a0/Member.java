@@ -21,7 +21,7 @@ public class Member implements IMember {
     /**
      * @param line (Übergibt eine eingelesene Zeile, welche die Daten zu jeweils einem Member enthält)
      */
-    public Member(String line) {
+    public Member(String line){
         String[] sections = line.split(";");    //Teilt den übergebenen String in die einzelnen Daten auf, Trennzeichen Semikolon.
         this.id = sections[0].trim();       //ID wird einfach als String übernommen.
         this.joiningdate = LocalDate.parse(sections[1].trim()); //Der Datum-String wird in ein Datum konvertiert.
