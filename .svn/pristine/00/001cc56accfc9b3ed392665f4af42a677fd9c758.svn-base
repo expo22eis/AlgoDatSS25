@@ -1,0 +1,46 @@
+package de.ostfalia.aud.ss25.a1;
+
+import de.ostfalia.aud.ss25.base.IAlgoCollection;
+import de.ostfalia.aud.ss25.base.IMember;
+import de.ostfalia.aud.ss25.base.Knoten;
+
+public class AlgoLinkedList implements IAlgoCollection {
+
+    private Knoten startknoten;
+
+    public AlgoLinkedList() {
+
+    }
+
+    public boolean add(IMember m) {
+
+        if (this.startknoten == null) {  //Wenn das erste Element hinzugefügt wird,
+            this.startknoten = new Knoten(m); //wird es im Startknoten gespeichert.
+            return true;
+        }
+        Knoten letzterKnoten = this.startknoten;
+        while (letzterKnoten.getNext() != null) { //Geht solange die Liste durch, bis es keinen nächsten Knoten gibt.
+            letzterKnoten = letzterKnoten.getNext();
+        }
+        letzterKnoten.setNext(new Knoten(m)); //Dann wird dem letzten Knoten ein neuer Knoten angehängt.
+        return true;
+    }
+
+    public boolean remove(IMember m) {
+
+        Knoten letzterKnoten = this.startknoten;
+        while (letzterKnoten.getNext() != null) {  //Liste wird durchgegangen
+
+            if (letzterKnoten.getNext().getElement() == m) { //Wenn der nächste Knoten den gesuchten Member enthält...
+
+                //Wird der übernächste Member an den aktuellen gehangen, sodass der gesuchte Member entfernt wird.
+                letzterKnoten.setNext(letzterKnoten.getNext().getNext());
+                return true;
+            }
+
+            letzterKnoten = letzterKnoten.getNext();
+        }
+        return false; //Wenn der gesuchte Member nicht gefunden wird, wird false zurückgegeben.
+
+    }
+}
