@@ -31,8 +31,8 @@ public class AlgoLinkedList implements IAlgoCollection<IMember> {
         size++;
         return true;
     }
-
-    public boolean remove2(IMember m){
+    
+    /*  public boolean remove2(IMember m){
         if (this.startknoten == null){
             return false;
         }
@@ -46,8 +46,7 @@ public class AlgoLinkedList implements IAlgoCollection<IMember> {
                 if (k.getNext().getNext() == null){
                     k.setNext(null);
                     return true;
-                }
-                else{
+                }else{
                     k.setNext(k.getNext().getNext());
                     return true;
                 }
@@ -55,6 +54,11 @@ public class AlgoLinkedList implements IAlgoCollection<IMember> {
         }
         return false;
     }
+     */
+
+
+
+    
     public boolean remove(IMember m) {
 
         Knoten letzterKnoten = this.startknoten;
