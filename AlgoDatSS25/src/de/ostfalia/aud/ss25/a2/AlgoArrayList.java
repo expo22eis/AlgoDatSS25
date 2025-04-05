@@ -8,7 +8,7 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
     
 
     private IMember[] list = new IMember[0];
-    private int size;
+    private int size = 0;
 
     @Override
     public boolean add(IMember m) {
@@ -24,7 +24,16 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
 
     @Override
     public boolean remove(IMember m) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (m.equals(null)){
+            return false;
+        }else{
+            for (int i =0; i< size; i++){
+                if (this.list.equals(m)){
+                    this.list[i] = null;
+                }
+            }
+            downsize();
+        }
     }
 
     @Override
@@ -38,7 +47,13 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
 
     @Override
     public IAlgoCollection<IMember> getAll(Comparator<IMember> c, IMember m) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        AlgoArrayList algoArrayList = new AlgoArrayList();
+
+        for (int i= 0; i<size; i++){
+            if (c.compare(this.list[i], m) == 0){  
+                algoArrayList.add(this.list[i]);
+            }
+        }
     }
 
     @Override
@@ -52,20 +67,30 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.size;
     }
 
     @Override
     public int size(Comparator<IMember> c, IMember m) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int matches = 0;
+        for (int i =0; i<size; i++){
+            if(c.compare(this.list[i], m) == 0){
+                matches++;
+            }
+        }return matches;
     }
 
     @Override
     public IMember[] toArray() {
-        throw new UnsupportedOperationException("Not supported yet.");
+          return this.list;    
     }
 
-    public void upsize(){
+    public void sort(Comparator<IMember> c) {
+        continue;
+    }
+
+
+    private void upsize(){
         IMember[] tmp = new IMember[size +1];
         for (int i = 0; i < size; i++){
             tmp[i] = this.list[i];
@@ -73,9 +98,15 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
         this.size++;
         this.list = tmp;
     }
-    public void downsize(int index){
-        IMember[] tmp = new IMember[size -1];
 
-        
+    private void downsize(){
+        IMember[] tmp = new IMember[size -1];
+        int j = 0;
+        for (int i= 0; i<size; i++ ){
+            if (this.list[i] != null){
+                tmp[j] = this.list[i];
+                j++;
+            }
+        }this.list = tmp;       
     }
 }
