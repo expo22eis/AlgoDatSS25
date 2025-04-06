@@ -27,20 +27,43 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
         if (m.equals(null)){
             return false;
         }else{
-            for (int i =0; i< size; i++){
-                if (this.list.equals(m)){
-                    this.list[i] = null;
+            int lowerLimit = 0;
+            int upperLimit = this.size -1;
+
+            while (lowerLimit <= upperLimit){
+                int median = (lowerLimit + upperLimit) /2;
+
+                if(this.list[median].equals(m)){
+                    this.list[median] = null;
+                    downsize();
+                    return true;
+                }else if(m.compareTo(this.list[median]) < 0){
+                    upperLimit = median -1;
+                }else{
+                    lowerLimit = median +1;
                 }
-            }
-            downsize();
-        }
+                }
+            }return false;
     }
 
     @Override
     public IMember get(IMember m){
-        for (int i = 0; i < size; i++){
-            if (m.equals(this.list[i])){
-                return m;
+        if (m.equals(null)){
+            return null;
+        }else{
+            int lowerLimit = 0;
+            int upperLimit = this.size -1;
+
+            while (lowerLimit <= upperLimit){
+                int median = (lowerLimit + upperLimit) /2;
+
+                if(this.list[median].equals(m)){
+                    return this.list[median];
+                }else if(m.compareTo(this.list[median]) < 0){
+                    upperLimit = median -1;
+                }else{
+                    lowerLimit = median +1;
+                }
             }
         }return null;
     }
@@ -49,18 +72,44 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
     public IAlgoCollection<IMember> getAll(Comparator<IMember> c, IMember m) {
         AlgoArrayList algoArrayList = new AlgoArrayList();
 
-        for (int i= 0; i<size; i++){
-            if (c.compare(this.list[i], m) == 0){  
-                algoArrayList.add(this.list[i]);
+        if (m.equals(null)){
+            return null;
+        }else{
+            int lowerLimit = 0;
+            int upperLimit = this.size -1;
+
+            while (lowerLimit <= upperLimit){
+                int median = (lowerLimit + upperLimit) /2;
+
+                if(this.list[median].equals(m)){
+                    algoArrayList.add(this.list[median]);
+                }else if(m.compareTo(this.list[median]) < 0){
+                    upperLimit = median -1;
+                }else{
+                    lowerLimit = median +1;
+                }
             }
-        }
+        }return algoArrayList;
     }
 
     @Override
     public int indexOf(IMember m) {
-        for (int i = 0; i < size; i++){
-            if (m.equals(this.list[i])){
-                return i;
+        if (m.equals(null)){
+            return -1;
+        }else{
+            int lowerLimit = 0;
+            int upperLimit = this.size -1;
+
+            while (lowerLimit <= upperLimit){
+                int median = (lowerLimit + upperLimit) /2;
+
+                if(this.list[median].equals(m)){
+                    return median;
+                }else if(m.compareTo(this.list[median]) < 0){
+                    upperLimit = median -1;
+                }else{
+                    lowerLimit = median +1;
+                }
             }
         }return -1;
     }
@@ -72,12 +121,26 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
 
     @Override
     public int size(Comparator<IMember> c, IMember m) {
-        int matches = 0;
-        for (int i =0; i<size; i++){
-            if(c.compare(this.list[i], m) == 0){
-                matches++;
+        int counter = 0;
+
+        if (m.equals(null)){
+            return -1;
+        }else{
+            int lowerLimit = 0;
+            int upperLimit = this.size -1;
+
+            while (lowerLimit <= upperLimit){
+                int median = (lowerLimit + upperLimit) /2;
+
+                if(this.list[median].equals(m)){
+                    counter++;
+                }else if(m.compareTo(this.list[median]) < 0){
+                    upperLimit = median -1;
+                }else{
+                    lowerLimit = median +1;
+                }
             }
-        }return matches;
+        }return counter;
     }
 
     @Override
@@ -86,7 +149,7 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
     }
 
     public void sort(Comparator<IMember> c) {
-        continue;
+        
     }
 
 
