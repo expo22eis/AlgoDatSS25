@@ -1,7 +1,10 @@
 package de.ostfalia.aud.ss25.a2;
 
+import de.ostfalia.aud.ss25.a0.Member;
 import de.ostfalia.aud.ss25.base.IAlgoCollection;
 import de.ostfalia.aud.ss25.base.IMember;
+import de.ostfalia.aud.ss25.base.Knoten;
+
 import java.util.Comparator;
 
 public class AlgoArrayList implements IAlgoCollection<IMember> {
@@ -171,5 +174,27 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
                 j++;
             }
         }this.list = tmp;       
+    }
+
+    public IAlgoCollection<IMember> getMembersByNames(IMember m) {
+
+        IAlgoCollection<IMember> liste = new AlgoArrayList(); //Neue Liste zum Speichern wird erstelt
+
+        for (int i = 0; i < size; i++){
+            if (this.list[i].getForename().equals(m.getForename())){
+                liste.add(this.list[i]);
+            }
+        }return liste; 
+    }
+
+    public IAlgoCollection<IMember> getMembersByGroup(IMember m) {
+
+        IAlgoCollection<IMember> liste = new AlgoArrayList(); //Neue Liste zum Speichern wird erstelt
+
+        for (int i = 0; i < size; i++){
+            if (this.list[i].getGroup().equals(m.getGroup())){
+                liste.add(this.list[i]);
+            }
+        }return liste;
     }
 }

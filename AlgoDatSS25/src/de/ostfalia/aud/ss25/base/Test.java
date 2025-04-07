@@ -2,6 +2,7 @@ package de.ostfalia.aud.ss25.base;
 
 import de.ostfalia.aud.ss25.a0.Member;
 import de.ostfalia.aud.ss25.a2.AlgoArrayList;
+import de.ostfalia.aud.ss25.a2.ManagementA2;
 
 import java.io.IOException;
 
@@ -21,8 +22,8 @@ public class Test {
 
 
         ChronoLOG c = new ChronoLOG("C:/Users/Rick/Downloads/40k_member.csv", "C:/Users/Rick/Downloads/40k_keys.csv");
-        c.measureTimeSearch(new ManagementA1("C:/Users/Rick/Downloads/40k_member.csv"));
-        c.measureTimePaste(new ManagementA1("C:/Users/Rick/Downloads/40k_member.csv"));
+        c.measureTimeSearch(new ManagementA2("C:/Users/Rick/Downloads/40k_member.csv"));
+        c.measureTimePaste(new ManagementA2("C:/Users/Rick/Downloads/40k_member.csv"));
         
         
 
