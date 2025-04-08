@@ -1,5 +1,6 @@
 package de.ostfalia.aud.ss25.base;
 
+import de.ostfalia.aud.ss25.a1.ManagementA1;
 import de.ostfalia.aud.ss25.a2.ManagementA2;
 
 import java.io.BufferedReader;
@@ -36,8 +37,7 @@ public class ChronoLOG {
             this.listToInsert.search(k);
         }
         long endTime = System.nanoTime();
-        System.out.println(String.format("Benötigte Zeit zum Suchen (in ns): %d (circa %d Millisekunden)",
-                (endTime - startTime), (endTime - startTime) / 1_000_000L));
+        System.out.println(String.format("Benötigte Zeit zum Suchen (in ns): %d (circa %d Sekunden)", (endTime - startTime), (endTime - startTime) / 1_000_000_000L));
         resetList();
     }
 
@@ -49,12 +49,10 @@ public class ChronoLOG {
             this.listToInsert.insert(m);
         }
         long endTime = System.nanoTime();
-        System.out.println(String.format("Benötigte Zeit zum Einfügen (in ns): %d (circa %d Millisekunden)",
-                (endTime - startTime), (endTime - startTime) / 1_000_000L));
+        System.out.println(String.format("Benötigte Zeit zum Einfügen (in ns): %d (circa %d Sekunden)", (endTime - startTime), (endTime - startTime) / 1_000_000_000L));
         resetList();
 
     }
-
     private void resetList() throws IOException {
         this.listToInsert = new ManagementA2(this.filename);
     }

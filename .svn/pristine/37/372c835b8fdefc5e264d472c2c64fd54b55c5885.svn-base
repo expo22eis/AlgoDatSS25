@@ -1,0 +1,287 @@
+package de.ostfalia.aud.ss25.a2;
+
+import de.ostfalia.aud.ss25.base.IAlgoCollection;
+import de.ostfalia.aud.ss25.base.IMember;
+import de.ostfalia.aud.ss25.comparator.ComparatorId;
+
+import java.util.Comparator;
+
+public class AlgoArrayList implements IAlgoCollection<IMember> {
+
+    private int arrayLastIndex = 0;
+    private IMember[] array = new IMember[1];
+    private boolean isSorted = false;
+    private Comparator<IMember> sortCriteria;
+
+
+    public boolean add(IMember m) {
+        if (m == null) {
+            return false;
+        }
+
+        if (this.arrayLastIndex == (this.array.length - 1)) {
+            doubleSize();
+        }
+
+        this.array[this.arrayLastIndex] = m;
+        arrayLastIndex++;
+        this.isSorted = false;
+        return true;
+    }
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < this.arrayLastIndex; i++) {
+            s.append(this.array[i].toString());
+            s.append("\n");
+        }
+        return s.toString();
+    }
+
+    public boolean remove(IMember m) {
+
+        if (!isSorted){
+            this.sort(new ComparatorId());
+        }
+        int targetIndex = findElement(m, this.sortCriteria);
+        if (targetIndex == -1){
+            return false;
+        }
+        this.fillGap(targetIndex);
+        return true;
+    }
+
+    @Override
+    public IMember get(IMember m) {
+
+        if (!this.isSorted || this.sortCriteria == null){
+            this.sort(new ComparatorId());
+        }
+
+        int targetIndex = findElement(m, this.sortCriteria);
+        if (targetIndex == -1){
+            return null;
+        }
+        return this.array[targetIndex];
+    }
+
+    @Override
+    public IAlgoCollection<IMember> getAll(Comparator<IMember> c, IMember m) {
+        this.sort(c);
+
+        IMember[] foundElements = findAllElements(m, this.sortCriteria);
+
+        IAlgoCollection<IMember> list = new AlgoArrayList();
+        for (IMember element : foundElements) {
+            list.add(element);
+        }
+
+        return list;
+    }
+
+
+    @Override
+    public int indexOf(IMember m) {
+        if (!isSorted){
+            this.sort(new ComparatorId());
+        }
+        int targetIndex = findElement(m, this.sortCriteria);
+        return targetIndex;
+    }
+
+    @Override
+    public int size() {
+        return this.arrayLastIndex;
+    }
+
+    @Override
+    public int size(Comparator<IMember> c, IMember m) {
+
+        return this.findAllElementsCount(m, c);
+    }
+
+    @Override
+    public void sort(Comparator<IMember> c) {
+        if (this.arrayLastIndex < 2) {
+            return;
+        }
+
+        IMember[] toSort = new IMember[this.arrayLastIndex];
+        System.arraycopy(this.array, 0, toSort, 0, this.arrayLastIndex);
+
+        IMember[] sorted = mergeSort(toSort, c);
+
+        System.arraycopy(sorted, 0, this.array, 0, sorted.length);
+        this.isSorted = true;
+        this.sortCriteria = c;
+    }
+
+
+    private IMember[] mergeSort(IMember[] list, Comparator<IMember> c) {
+        if (list.length < 2) {
+            return list;
+        }
+        int mid = list.length / 2;
+        IMember[] left = new IMember[mid];
+        IMember[] right = new IMember[list.length - mid];
+
+        for (int i = 0; i < left.length; i++) {
+            left[i] = list[i];
+        }
+        for (int i = 0; i < right.length; i++) {
+            right[i] = list[mid + i];
+        }
+        left = mergeSort(left, c);
+        right = mergeSort(right, c);
+        return merge(left, right, c);
+    }
+
+    private IMember[] merge(IMember[] left, IMember[] right, Comparator<IMember> c) {
+        IMember[] resultList = new IMember[left.length + right.length];
+        int indexLeft = 0, indexRight = 0, indexResult = 0;
+
+        while (indexLeft < left.length && indexRight < right.length) {
+            if (c.compare(left[indexLeft], right[indexRight]) <= 0) {
+                resultList[indexResult++] = left[indexLeft++];
+            } else {
+                resultList[indexResult++] = right[indexRight++];
+            }
+        }
+
+        // Restliche Elemente von left hinzufügen
+        while (indexLeft < left.length) {
+            resultList[indexResult++] = left[indexLeft++];
+        }
+
+        // Restliche Elemente von right hinzufügen
+        while (indexRight < right.length) {
+            resultList[indexResult++] = right[indexRight++];
+        }
+
+        return resultList;
+    }
+
+
+    @Override
+    public IMember[] toArray() {
+
+        IMember[] r = new IMember[this.arrayLastIndex];
+        System.arraycopy(this.array, 0, r, 0, this.arrayLastIndex);
+        return r;
+    }
+
+    private void doubleSize() {
+        IMember[] tmp = new IMember[this.array.length * 2];
+        for (int i = 0; i < this.arrayLastIndex; i++) { //ggf. durch System.arrayCopy() ersetzen?
+            tmp[i] = this.array[i];
+        }
+        this.array = tmp;
+    }
+
+    private void fillGap(int index) {
+
+        for (int i = index; i < this.arrayLastIndex - 1; i++) {
+            this.array[i] = this.array[i + 1];
+        }
+        this.array[this.arrayLastIndex-1] = null;
+        this.arrayLastIndex--;
+    }
+
+    private int findElement(IMember m, Comparator<IMember> c) {
+        int left = 0;
+        int right = this.arrayLastIndex-1;
+        int mid;
+
+        while (left <= right) {
+
+            mid = left + (right - left) / 2;
+
+            int comp = c.compare(this.array[mid], m);
+
+            if (comp == 0) {
+                return mid;
+            }
+            if (comp < 0) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+    private IMember[] findAllElements(IMember m, Comparator<IMember> c) {
+        IMember[] elements = new IMember[this.arrayLastIndex];
+        int counter = 0;
+        int left = 0;
+        int right = this.arrayLastIndex - 1;
+        int mid;
+
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            int comp = c.compare(this.array[mid], m);
+
+            if (comp == 0) {
+
+                elements[counter] = this.array[mid];
+                counter++;
+                int index = mid - 1;
+                while (index >= 0 && c.compare(this.array[index], m) == 0) {
+                    elements[counter++] = this.array[index];
+                    index--;
+                }
+                index = mid + 1;
+                while (index < this.arrayLastIndex && c.compare(this.array[index], m) == 0) {
+                    elements[counter++] = this.array[index];
+                    index++;
+                }
+
+                break;
+            }
+
+            if (comp < 0) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        IMember[] result = new IMember[counter];
+        System.arraycopy(elements, 0, result, 0, counter);
+        return result;
+    }
+    private int findAllElementsCount(IMember m, Comparator<IMember> c) {
+        int counter = 0;
+        int left = 0;
+        int right = this.arrayLastIndex - 1;
+        int mid;
+
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            int comp = c.compare(this.array[mid], m);
+
+            if (comp == 0) {
+
+                counter++;
+                int index = mid - 1;
+                while (index >= 0 && c.compare(this.array[index], m) == 0) {
+                    counter++;
+                    index--;
+                }
+                index = mid + 1;
+                while (index < this.arrayLastIndex && c.compare(this.array[index], m) == 0) {
+                    counter++;
+                    index++;
+                }
+
+                break;
+            }
+
+            if (comp < 0) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return counter;
+    }
+
+}

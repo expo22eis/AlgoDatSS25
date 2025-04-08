@@ -1,6 +1,6 @@
 package de.ostfalia.aud.ss25.base;
 
-import de.ostfalia.aud.ss25.a2.ManagementA2;
+import de.ostfalia.aud.ss25.a1.ManagementA1;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,11 +11,9 @@ public class ChronoLOG {
     private IManagement listToInsert;
     private String[] keys;
     private final int keyCount = 40000;
-    private String filename = "";
 
     public ChronoLOG(String filename, String filenameKeys) throws IOException {
-        this.listToInsert = new ManagementA2(filename);
-        this.filename = filename;
+        this.listToInsert = new ManagementA1(filename);
 
         BufferedReader reader = new BufferedReader(new FileReader(filenameKeys));
         String line;
@@ -29,33 +27,25 @@ public class ChronoLOG {
         }
     }
 
-    public void measureTimeSearch() throws IOException {
+    public void measureTimeSearch(IManagement list) {
 
         long startTime = System.nanoTime();
         for (String k : keys) {
-            this.listToInsert.search(k);
+            list.search(k);
         }
         long endTime = System.nanoTime();
-        System.out.println(String.format("Benötigte Zeit zum Suchen (in ns): %d (circa %d Millisekunden)",
-                (endTime - startTime), (endTime - startTime) / 1_000_000L));
-        resetList();
+        System.out.println(String.format("Benötigte Zeit zum Suchen (in ns): %d (circa %d Sekunden)", (endTime - startTime), (endTime - startTime) / 1_000_000_000L));
     }
 
-    public void measureTimePaste() throws IOException {
+    public void measureTimePaste(IManagement list) {
 
         IMember[] membersToCopy = listToInsert.toArray();
         long startTime = System.nanoTime();
         for (IMember m : membersToCopy) {
-            this.listToInsert.insert(m);
+            list.insert(m);
         }
         long endTime = System.nanoTime();
-        System.out.println(String.format("Benötigte Zeit zum Einfügen (in ns): %d (circa %d Millisekunden)",
-                (endTime - startTime), (endTime - startTime) / 1_000_000L));
-        resetList();
+        System.out.println(String.format("Benötigte Zeit zum Einfügen (in ns): %d (circa %d Sekunden)", (endTime - startTime), (endTime - startTime) / 1_000_000_000L));
 
-    }
-
-    private void resetList() throws IOException {
-        this.listToInsert = new ManagementA2(this.filename);
     }
 }
