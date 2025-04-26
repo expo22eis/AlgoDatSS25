@@ -130,6 +130,7 @@ public class Member implements IMember {
      * @return Integer (wird in späterer Aufgabe implementiert)
      */
     public int compareTo(IMember o) {
-        throw new UnsupportedOperationException("Unimplemented method 'compareTo'"); //Funktion wird in späterer Aufgabe implementiert.
+
+        return id.compareTo(o.getId());
     }
 }
