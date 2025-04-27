@@ -1,104 +1,100 @@
 package de.ostfalia.aud.ss25.a2;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 import de.ostfalia.aud.ss25.a0.Member;
-import de.ostfalia.aud.ss25.a1.AlgoLinkedList;
-import de.ostfalia.aud.ss25.a2.AlgoArrayList;
 import de.ostfalia.aud.ss25.base.Group;
 import de.ostfalia.aud.ss25.base.IAlgoCollection;
 import de.ostfalia.aud.ss25.base.IManagement;
 import de.ostfalia.aud.ss25.base.IMember;
+import de.ostfalia.aud.ss25.comparator.ComparatorGroup;
+import de.ostfalia.aud.ss25.comparator.ComparatorId;
+import de.ostfalia.aud.ss25.comparator.ComparatorName;
 
-public class ManagementA2 implements IManagement{
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
-    private IAlgoCollection<IMember> collection;
+public class ManagementA2 implements IManagement {
 
-    public ManagementA2(String[] data){
-        collection = new AlgoArrayList();
+    private IAlgoCollection<IMember> list;
+
+
+    public ManagementA2(String[] data) {
+
+        this.list = new AlgoArrayList();
 
         for (String s : data) {
- 
+
             IMember m = new Member(s);
-            collection.add(m);
+            this.list.add(m);
         }
+        this.list.sort(new ComparatorId());
     }
 
-    public ManagementA2(String dateiName) throws IOException{
-        collection = new AlgoLinkedList();
+    public ManagementA2(String dateiName) throws IOException {
+        this.list = new AlgoArrayList();
         BufferedReader reader = new BufferedReader(new FileReader(dateiName));
-        String line;
+        String line = reader.readLine();
         //Prüft, ob die ersten 3 Chars "key" sind, also, ob es sich um einen Header handelt.
-        line = reader.readLine();
-        if (!(line.startsWith("key"))){
+        if (!(line.startsWith("key"))) {
             IMember m = new Member(line);
-            collection.add(m);
+            this.list.add(m);
         }
         while ((line = reader.readLine()) != null) {
 
             IMember m = new Member(line);
-            collection.add(m);
+            this.list.add(m);
         }
+        this.list.sort(new ComparatorId());
         reader.close();
     }
 
-    @Override
     public boolean insert(IMember member) {
-        if (collection.get(member) != null){
+
+        if (this.list.get(member) != null) {
             return false;
-        }else{
-            collection.add(member);
-            return true;
         }
+
+        this.list.add(member);
+        return true;
     }
 
-    @Override
     public boolean remove(String id) {
-        return collection.remove(new Member(id,  null, null, null, null, false));
+
+        return list.remove(new Member(id, null, null, null, null, false));
     }
 
-    @Override
     public IMember search(String id) {
-        return collection.get(new Member(id, null, null, null, null, false));
+        return list.get(new Member(id, null, null, null, Group.STUDENT, false));
     }
 
-    @Override
     public IAlgoCollection<IMember> members(String surname, String forename) {
-        return ((AlgoArrayList) collection)
-                    .getMembersByNames(new Member("dummy", null, surname, forename, null, false));
+        return list.getAll(new ComparatorName(), new Member("d", null, surname, forename, null, false));
     }
 
-    @Override
     public IAlgoCollection<IMember> members(Group group) {
-        return ((AlgoArrayList) collection)
-                    .getMembersByGroup(new Member("dummy", null, null, null, group, false));
+        return list.getAll(new ComparatorGroup(), new Member("d", null, null, null, group, false));
     }
 
-    @Override
     public int size() {
-        return collection.size();
+        return list.size();
     }
 
-    @Override
     public int size(Group group) {
-        return ((AlgoArrayList) collection)
-                    .getMembersByGroup(new Member("dummy", null, null, null, group, false))
-                    .size();
 
-        
+        return list.size(new ComparatorGroup(), new Member("d", null, null, null, group, false));
     }
 
-    @Override
     public int indexOf(String id) {
-        return ((AlgoArrayList) collection)
-                    .indexOf(new Member(id, null, null, null, null, false));
+        list.sort(new ComparatorId());
+        return list.indexOf(new Member(id, null, null, null, Group.STUDENT, false));
+    }
+
+    public IMember[] toArray() {
+        return list.toArray();
     }
 
     @Override
-    public IMember[] toArray() {
-        return ((AlgoArrayList) collection).toArray();
+    public String toString() {
+        return list.toString();
     }
-    
 }
