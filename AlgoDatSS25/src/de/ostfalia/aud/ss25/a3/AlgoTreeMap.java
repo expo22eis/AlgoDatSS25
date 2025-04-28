@@ -11,23 +11,23 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
 
     private TreeNode root;
     private Comparator<IMember> comparator;
+    private final boolean isIdComparator;
 
     private static class Index{
         int v = 0;
     }
 
-
-    public AlgoTreeMap(Comparator<IMember> c) {
+     public AlgoTreeMap(Comparator<IMember> c) {
         this.comparator = c;
+        this.isIdComparator = c instanceof ComparatorId;
     }
 
     public boolean add(IMember m) { 
-
         if (root == null) {     //wenn Tree leer ist -> neuer Tree mit m als root
             root = new TreeNode(m);
             return true;
         }
-        if (comparator instanceof ComparatorId) {
+        if (isIdComparator){
             return false;
         }
         TreeNode pointer = root;                    //zeigt auf aktuellen Knoten
@@ -62,7 +62,7 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
     public IMember get(IMember m) {
         TreeNode pointer = root;
 
-        if (comparator instanceof ComparatorId) {
+        if (isIdComparator) {
             return pointer.getKey();
         }
         while (pointer != null) {
@@ -80,7 +80,7 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
     public IAlgoCollection<IMember> getAll(Comparator<IMember> c, IMember m) {
         TreeNode pointer = root;
 
-        if (comparator instanceof ComparatorId) {
+        if (isIdComparator) {
             return pointer.getValue();
         }
         while (pointer != null) {
@@ -115,7 +115,6 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
             count += countMembers(node.getRight());
             return count;
         }
-        
     }
 
     public int size(Comparator<IMember> c, IMember m){
