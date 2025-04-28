@@ -27,24 +27,24 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
             root = new TreeNode(m);
             return true;
         }
-        TreeNode pointer = root;    //zeigt auf aktuellen Knoten
-        TreeNode parent = root;     //zeigt auf aktuellen Parent
+        if (comparator instanceof ComparatorId) {
+            return false;
+        }
+        TreeNode pointer = root;                    //zeigt auf aktuellen Knoten
+        TreeNode parent = root;                     //zeigt auf aktuellen Parent
         
-        while (pointer != null) {   //solang pointer Wert hat
+        while (pointer != null) {                   //solang pointer Wert hat
             parent = pointer;
             int compResult = comparator.compare(m, pointer.getKey());
-            if (compResult < 0) {
+            
+            if (compResult < 0) {                   //wenn m kleiner als pointer key, linkes child
                 pointer = pointer.getLeft();
-            }else if (compResult > 0) {
+            }else if (compResult > 0) {             //wenn m größer als pointer key, rechtes child
                 pointer = pointer.getRight();
-            }else {
-
-                if (comparator instanceof ComparatorId) {
-                    return false;
-                }else{
+            }else {                                 
                     pointer.addValue(m);
                     return true;
-                }
+                
             }
         }
         if (comparator.compare(m, parent.getKey()) < 0) {
@@ -60,8 +60,11 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
     }
 
     public IMember get(IMember m) {
-
         TreeNode pointer = root;
+
+        if (comparator instanceof ComparatorId) {
+            return pointer.getKey();
+        }
         while (pointer != null) {
             int compResult = comparator.compare(m, pointer.getKey());
             if (compResult < 0) {
@@ -69,30 +72,26 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
             }else if (compResult > 0) {
                 pointer = pointer.getRight();
             }else {
-                if (comparator instanceof ComparatorId) {
-                    return pointer.getKey();
-                }else {
-                    return pointer.getValue().get(m);
-                }
+                return pointer.getValue().get(m);
             }
-        }
-        return null;
+        }return null;
     }
 
     public IAlgoCollection<IMember> getAll(Comparator<IMember> c, IMember m) {
         TreeNode pointer = root;
+
+        if (comparator instanceof ComparatorId) {
+            return pointer.getValue();
+        }
         while (pointer != null) {
             int compResult = comparator.compare(m, pointer.getKey());
             if (compResult < 0) {
                 pointer = pointer.getLeft();
-            } else if (compResult > 0) {
+            }else if (compResult > 0) {
                 pointer = pointer.getRight();
-            } else {
-                if (comparator instanceof ComparatorId) {
-                    return pointer.getValue();
-                } else {
-                    return pointer.getValue();
-                }
+            }else {
+                return pointer.getValue();
+                
             }
         }
         return new AlgoArrayList();
@@ -104,9 +103,6 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
 
     @Override
     public int size() {
-        if (root == null) {
-            return 0;
-        }
         return countMembers(root);
     }
 
@@ -121,6 +117,7 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
         }
         
     }
+
     public int size(Comparator<IMember> c, IMember m){
         return getAll(c, m).size();
     }
@@ -128,11 +125,11 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
     public IMember[] toArray(){
         if (root == null){
             return new IMember[0];
+        }else{
+            IMember[] r = new IMember[size()];
+            traversalRecursive(r, new Index(), root);
+            return r;
         }
-
-        IMember[] r = new IMember[size()];
-        traversalRecursive(r, new Index(), root);
-        return r;
     }
 
     private void traversalRecursive(IMember[] array, Index index, TreeNode node){
@@ -148,7 +145,6 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
     }
 
     public String toString(){
-
         StringBuilder s = new StringBuilder();
         for (IMember m : toArray()){
             s.append(m.toString());
@@ -163,7 +159,6 @@ public class AlgoTreeMap implements IAlgoCollection<IMember> {
     }
 
     private int getHeight(TreeNode m){
-
         if (m == null){
             return 0;
         }else{
