@@ -32,7 +32,7 @@ public class Member implements IMember {
     }
 
     /**
-     * @param id,
+     * @param id
      * @param joiningdate
      * @param surname
      * @param forename
