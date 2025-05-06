@@ -10,12 +10,12 @@ import java.time.LocalDate; //Importiert LocalDate, um später darauf zuzugreife
  * @Description Klasse zum Speichern von Mitgliedern und deren Daten.
  */
 public class Member implements IMember {
-    private String id;              //Deklaration der Klassenattribute, um die jeweiligen Mitgliedsdaten zu speichern.
-    private LocalDate joiningdate;
-    private String surname;
-    private String forename;
-    private Group group;
-    private boolean newsletter;
+    private final String id;              //Deklaration der Klassenattribute, um die jeweiligen Mitgliedsdaten zu speichern.
+    private final LocalDate joiningdate;
+    private final String surname;
+    private final String forename;
+    private final Group group;
+    private final boolean newsletter;
 
     /**
      * @param line (Übergibt eine eingelesene Zeile, welche die Daten zu jeweils einem Member enthält)
@@ -104,8 +104,15 @@ public class Member implements IMember {
         return false;
 
     }
+    @Override
         public int hashCode() {
-            return 0;
+            int code = 0;
+            for(int i= 0; i< surname.length(); i++){
+                code += (int) surname.charAt(i)* weight(surname.length()-1 -i) *2;
+            }
+            for(int j= 0; j< forename.length(); j++){
+                code += (int) forename.charAt(j) * weight(forename.length()-1 -j);
+            }return code;
         }
 
 
@@ -131,5 +138,9 @@ public class Member implements IMember {
     public int compareTo(IMember o) {
 
         return id.compareTo(o.getId());
+    }
+
+    private double weight(int index){
+        return index * index;
     }
 }

@@ -4,7 +4,7 @@ import de.ostfalia.aud.ss25.base.IAlgoCollection;
 import de.ostfalia.aud.ss25.base.IMember;
 import java.util.Comparator;
 
-public class AlgoHashMap<K, V> implements IAlgoCollection{
+public class AlgoHashMap implements IAlgoCollection{
 
     private IAlgoCollection<IMember>[] buckets;
 

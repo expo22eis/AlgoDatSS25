@@ -6,14 +6,12 @@ public class HashMapIterator<AlgoHashMap> implements java.util.Iterator{
 
     @Override
     public boolean hasNext() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasNext'");
+        return false;
     }
 
     @Override
     public Object next() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'next'");
+        return new Object();
     }
     
 }
