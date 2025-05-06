@@ -2,7 +2,6 @@ package de.ostfalia.aud.ss25.a0;
 
 import de.ostfalia.aud.ss25.base.Group;
 import de.ostfalia.aud.ss25.base.IMember;
-
 import java.time.LocalDate; //Importiert LocalDate, um später darauf zuzugreifen.
 
 /**
@@ -98,8 +97,8 @@ public class Member implements IMember {
      * @return boolean (Prüft auf Gleichheit der ID und gibt den entsprechenden Boolean-Wert zurück)
      */
     public boolean equals(Object o) {    //Gibt zurück, ob es sich um den gleichen Member handelt.
-        if (o instanceof Member) {
-            Member objectToCompare = (Member) o;    //Das Casten war nötig, um auf die Klassenmethode getId() zuzugreifen.
+        if (o instanceof Member objectToCompare) { //Das Casten war nötig, um auf die Klassenmethode getId() zuzugreifen.
+            //Das Casten war nötig, um auf die Klassenmethode getId() zuzugreifen.
             return this.getId().equalsIgnoreCase(objectToCompare.getId());
         }
         return false;
