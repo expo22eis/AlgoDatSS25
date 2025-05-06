@@ -1,0 +1,88 @@
+package de.ostfalia.aud.ss25.a2;
+
+import de.ostfalia.aud.ss25.a0.Member;
+import de.ostfalia.aud.ss25.a1.AlgoLinkedList;
+import de.ostfalia.aud.ss25.base.Group;
+import de.ostfalia.aud.ss25.base.IAlgoCollection;
+import de.ostfalia.aud.ss25.base.IManagement;
+import de.ostfalia.aud.ss25.base.IMember;
+import de.ostfalia.aud.ss25.comparator.ComparatorGroup;
+import de.ostfalia.aud.ss25.comparator.ComparatorId;
+import de.ostfalia.aud.ss25.comparator.ComparatorName;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ManagementA2 implements IManagement {
+
+    private IAlgoCollection<IMember> list;
+
+
+    public ManagementA2(String[] data) {
+
+        this.list = new AlgoLinkedList();
+
+        for (String s : data) {
+
+            IMember m = new Member(s);
+            this.list.add(m);
+        }
+        //this.list.sort(new ComparatorId());
+    }
+    public ManagementA2(String dateiName) throws IOException {
+        this.list = new AlgoLinkedList();
+        BufferedReader reader = new BufferedReader(new FileReader(dateiName));
+        String line;
+        //Prüft, ob die ersten 3 Chars "key" sind, also, ob es sich um einen Header handelt.
+        if (!((line = reader.readLine()).startsWith("key"))){
+            IMember m = new Member(line);
+            this.list.add(m);
+        }
+        while ((line = reader.readLine()) != null) {
+
+            IMember m = new Member(line);
+            this.list.add(m);
+        }
+        this.list.sort(new ComparatorId());
+    }
+    public boolean insert(IMember member) {
+
+        if (this.list.get(member) != null){ //Wenn es den Member schon gibt, wird abgebrochen.
+            return false;
+        } else {
+            this.list.add(member);
+            return true;
+        }
+    }
+    public boolean remove(String id){
+
+        return list.remove(new Member(id,  null, null, null, null, false));
+    }
+    public IMember search(String id){
+        return list.get(new Member(id, null, null, null, null, false));
+    }
+    public IAlgoCollection<IMember> members(String surname, String forename) {
+        return list.getAll(new ComparatorName(), new Member("dummy", null, surname, forename, null, false));
+    }
+    public IAlgoCollection<IMember> members(Group group) {
+        return list.getAll(new ComparatorGroup(), new Member("dummy", null, null, null, group, false));
+    }
+    public int size(){
+        return list.size();
+    }
+    public int size(Group group) {
+        return list.size(new ComparatorGroup(), new Member("dummy", null, null, null, group, false));
+    }
+    public int indexOf(String id){
+        list.sort(new ComparatorId());
+        return list.indexOf(new Member(id, null, null, null, null , false));
+    }
+    public IMember[] toArray(){
+        return list.toArray();
+    }
+    @Override
+    public String toString(){
+        return list.toString();
+    }
+    }

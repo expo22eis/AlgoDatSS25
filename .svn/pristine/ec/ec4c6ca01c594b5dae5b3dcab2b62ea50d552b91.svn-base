@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b306f8fc-9cda-4e51-b3e0-b571fad45842" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/a2/AlgoArrayList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/a2/ManagementA2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/comparator/ComparatorGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/comparator/ComparatorName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/a0/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/a0/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/base/ChronoLOG.java" beforeDir="false" afterPath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/base/ChronoLOG.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/base/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/base/Test.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;expo22eis&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/expo22eis/AlgoDatSS25.git&quot;,
+    &quot;accountId&quot;: &quot;321321d5-0159-4e3c-bf64-9633cf9bfffe&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2unfBNrgWoCi8Wjz1eFVDAzXhwW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Test.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Rick/Downloads/gdp_checks_v10.1.xml",
+    "settings.editor.selected.configurable": "org.infernus.idea.checkstyle.CheckStyleConfigurable"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b306f8fc-9cda-4e51-b3e0-b571fad45842" name="Changes" comment="" />
+      <created>1742889124467</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1742889124467</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/AlgoDatSS25/src/de/ostfalia/aud/ss25/comparator/ComparatorGroup.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
