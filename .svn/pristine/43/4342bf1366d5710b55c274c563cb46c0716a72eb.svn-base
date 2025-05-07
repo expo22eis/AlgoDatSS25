@@ -48,12 +48,14 @@ public class ManagementA2 implements IManagement {
     }
 
     public boolean insert(IMember member) {
+        //this.list.sort(new ComparatorId());
 
         if (this.list.get(member) != null) {
             return false;
         }
 
         this.list.add(member);
+        //this.list.sort(new ComparatorId());
         return true;
     }
 

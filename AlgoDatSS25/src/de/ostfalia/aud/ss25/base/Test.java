@@ -1,6 +1,8 @@
 package de.ostfalia.aud.ss25.base;
 
+import de.ostfalia.aud.ss25.a0.Member;
 import de.ostfalia.aud.ss25.a3.ManagementA3;
+
 import java.io.IOException;
 
 public class Test {
