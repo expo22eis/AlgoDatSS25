@@ -29,4 +29,8 @@ public class ComparatorId implements Comparator<IMember> {
         return m1.compareTo(m2);
     }
 
+    public int hashCode(IMember m){
+        return m.getId().hashCode();
+    }
+
 }

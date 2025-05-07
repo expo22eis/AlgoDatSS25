@@ -14,4 +14,8 @@ public class ComparatorName implements Comparator<IMember> {
         return name1.compareTo(name2);
     }
 
+    public int hashCode(IMember m){
+        return (m.getSurname().concat(m.getForename())).hashCode();
+    }
+
 }

@@ -2,7 +2,9 @@ package de.ostfalia.aud.ss25.a0;
 
 import de.ostfalia.aud.ss25.base.Group;
 import de.ostfalia.aud.ss25.base.IMember;
+import de.ostfalia.aud.ss25.comparator.*;
 import java.time.LocalDate; //Importiert LocalDate, um später darauf zuzugreifen.
+import java.util.Comparator;
 
 /**
  * @author Rick Kunze, Robin Iffland
@@ -104,17 +106,6 @@ public class Member implements IMember {
         return false;
 
     }
-    @Override
-        public int hashCode() {
-            int code = 0;
-            for(int i= 0; i< surname.length(); i++){
-                code += (int) surname.charAt(i)* weight(surname.length()-1 -i) *2;
-            }
-            for(int j= 0; j< forename.length(); j++){
-                code += (int) forename.charAt(j) * weight(forename.length()-1 -j);
-            }return code;
-        }
-
 
     @Override   //Gibt die Daten im CSV-Format zurück.
     /**
@@ -140,7 +131,8 @@ public class Member implements IMember {
         return id.compareTo(o.getId());
     }
 
-    private double weight(int index){
-        return index * index;
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException("Unused method in Member.");
     }
 }
