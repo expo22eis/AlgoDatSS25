@@ -89,24 +89,14 @@ public class AlgoLinkedList implements IAlgoCollection<IMember> {
     }
 
     public IMember get(IMember m) {
+        Knoten current = this.startknoten;
 
-        if (startknoten == null) {
-            return null;
-        }
-        if (startknoten.getElement().equals(m)) { //Wenn der Startknoten gesucht ist,
-            return startknoten.getElement();//wird dieser zurückgegeben
-        }
-        Knoten letzterKnoten = this.startknoten;
-        while (letzterKnoten.getNext() != null) { //Liste wird durchlaufen
-            if (letzterKnoten.getElement().equals(m)) { //Wenn der Knoten das gesuchte Element enthält,
-                return letzterKnoten.getElement(); //wird dieses zurückgegeben
+        while (current != null) {
+            if (current.getElement().equals(m)) {
+                return current.getElement();
             }
-            letzterKnoten = letzterKnoten.getNext();
-        }
-        if (letzterKnoten.getElement().equals(m)){
-            return letzterKnoten.getElement();
-        }
-        return null; //ansonsten wird null zurückgegeben
+            current = current.getNext();
+        }return null;
     }
 
     public IAlgoCollection<IMember> getAll(Comparator<IMember> c, IMember m) {
