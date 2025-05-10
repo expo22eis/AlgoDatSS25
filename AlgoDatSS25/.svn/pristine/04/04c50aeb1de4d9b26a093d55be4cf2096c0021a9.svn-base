@@ -1,0 +1,10 @@
+package de.ostfalia.aud.ss25.a1;
+
+import de.ostfalia.aud.ss25.base.IAlgoCollection;
+import de.ostfalia.aud.ss25.a0.Member;
+
+public class AlgoLinkedList implements IAlgoCollection {
+
+
+    private Member next;
+}

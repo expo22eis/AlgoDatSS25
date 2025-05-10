@@ -1,0 +1,53 @@
+package de.ostfalia.aud.ss25.a1;
+
+import de.ostfalia.aud.ss25.a0.Member;
+import de.ostfalia.aud.ss25.base.IAlgoCollection;
+import de.ostfalia.aud.ss25.base.IManagement;
+import de.ostfalia.aud.ss25.base.IMember;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ManagementA1 implements IManagement {
+
+    private IAlgoCollection<IMember> collection;
+
+
+    public ManagementA1(String[] data) {
+
+        collection = new AlgoLinkedList();
+
+        for (String s : data) {
+
+            IMember m = new Member(s);
+            collection.add(m);
+        }
+    }
+
+    public ManagementA1(String dateiName) throws IOException {
+
+        BufferedReader reader = new BufferedReader(new FileReader(dateiName));
+        String line;
+        while ((line = reader.readLine()) != null) {
+
+            IMember m = new Member(line);
+            collection.add(m);
+        }
+    }
+
+    public boolean insert(IMember member) {
+
+        if (collection.get(member) == null) {
+            return false;
+        } else {
+            collection.add(member);
+            return true;
+        }
+    }
+    public boolean remove(String id){
+
+        IMember m = new Member(id,null,null,null,null,false);
+        return collection.remove();
+    }
+}

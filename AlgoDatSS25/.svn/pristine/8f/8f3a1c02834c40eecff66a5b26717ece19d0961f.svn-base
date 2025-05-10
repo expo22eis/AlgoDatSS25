@@ -1,0 +1,169 @@
+package de.ostfalia.aud.ss25.a1;
+
+import de.ostfalia.aud.ss25.base.IAlgoCollection;
+import de.ostfalia.aud.ss25.base.IMember;
+import de.ostfalia.aud.ss25.base.Knoten;
+
+import java.util.Comparator;
+
+public class AlgoLinkedList implements IAlgoCollection {
+
+    private Knoten startknoten;
+
+    private int size;
+
+    public AlgoLinkedList() { //Konstruktor
+
+    }
+
+    public boolean add(IMember m) {
+
+        if (this.startknoten == null) {  //Wenn das erste Element hinzugefügt wird,
+            this.startknoten = new Knoten(m); //wird es im Startknoten gespeichert.
+            size = 1;
+            return true;
+        }
+        Knoten letzterKnoten = this.startknoten;
+        while (letzterKnoten.getNext() != null) { //Geht solange die Liste durch, bis es keinen nächsten Knoten gibt.
+            letzterKnoten = letzterKnoten.getNext();
+        }
+        letzterKnoten.setNext(new Knoten(m)); //Dann wird dem letzten Knoten ein neuer Knoten angehängt.
+        size++;
+        return true;
+    }
+
+    public boolean remove(IMember m) {
+
+        Knoten letzterKnoten = this.startknoten;
+        while (letzterKnoten.getNext() != null) {  //Liste wird durchgegangen
+
+            if (letzterKnoten.getNext().getElement() == m) { //Wenn der nächste Knoten den gesuchten Member enthält...
+
+                //Wird der übernächste Member an den aktuellen gehangen, sodass der gesuchte Member entfernt wird.
+                letzterKnoten.setNext(letzterKnoten.getNext().getNext());
+                this.size--; //Wenn ein Element entfernt wurde, verringert sich auch die Größe der Liste um 1.
+                return true;
+            }
+
+            letzterKnoten = letzterKnoten.getNext();
+        }
+        return false; //Wenn der gesuchte Member nicht gefunden wird, wird false zurückgegeben.
+    }
+
+    public IMember get(IMember m) {
+
+        if (this.startknoten.getElement() == m) { //Wenn der Startknoten gesucht ist,
+            return this.startknoten.getElement();//wird dieser zurückgegeben
+        }
+        Knoten letzterKnoten = this.startknoten;
+        while (letzterKnoten.getNext() != null) { //Liste wird durchlaufen
+            if (letzterKnoten.getElement() == m) { //Wenn der Knoten das gesuchte Element enthält,
+                return letzterKnoten.getElement(); //wird dieses zurückgegeben
+            }
+            letzterKnoten = letzterKnoten.getNext();
+        }
+        return null; //ansonsten wird null zurückgegeben
+    }
+
+    public IAlgoCollection<IMember> getAll(Comparator<IMember> c, IMember m) {
+
+        IAlgoCollection<IMember> liste = new AlgoLinkedList(); //Neue Liste zum Speichern wird erstelt
+
+        Knoten letzterKnoten = this.startknoten;
+
+        //Wenn das Startelement mit dem gesuchten Element vergleichbar ist, wird es der Liste hinzugefügt.
+        if (c.compare(m, letzterKnoten.getElement()) == 0) {
+            liste.add(letzterKnoten.getElement());
+        }
+
+        while (letzterKnoten.getNext() != null) { //Liste wird durchlaufen
+            letzterKnoten = letzterKnoten.getNext();
+
+            //Wenn das Listenelement vergleichbar ist, wird es der Liste hinzugefügt.
+            if (c.compare(m, letzterKnoten.getElement()) == 0) {
+                liste.add(letzterKnoten.getElement());
+            }
+        }
+        return liste; //Am Ende wird die Liste zurückgegeben.
+    }
+
+    public int indexOf(IMember m) {
+
+        int index = 0; //Variable zum Speichern des Index wird erstellt.
+
+        Knoten letzterKnoten = this.startknoten;
+        //Wenn der Startknoten das gesuchte Element ist, wird logischerweise Index = 0 zurückgegeben.
+        if (letzterKnoten.getElement() == m) {
+            return index;
+        }
+        while (letzterKnoten.getNext() != null) { //Liste wird durchlaufen
+            index++;
+            letzterKnoten = letzterKnoten.getNext();
+            if (letzterKnoten.getElement() == m) {  //Wenn das Element gefunden wurde, wird dessen Index zurückgegeben.
+                return index;
+            }
+        }
+        return -1; //Wenn nicht, wird -1 zurückgegeben.
+    }
+
+    public int size() {
+        return this.size; //Gibt die Anzahl der Elemente der Liste zurück.
+    }
+
+    public int size(Comparator<IMember> c, IMember m) {
+
+        int matchSize = 0;
+        Knoten letzterKnoten = this.startknoten;
+        //Wenn der Startknoten ein vergleichbares Element enthält, wird matchSize um 1 erhöht.
+        if (c.compare(m, letzterKnoten.getElement()) == 0) {
+            matchSize++;
+        }
+        while (letzterKnoten.getNext() != null) { //Liste wird durchlaufen
+            letzterKnoten = letzterKnoten.getNext();
+            //Wenn ein vergleichbares Element gefunden wurde, wird matchSize um 1 erhöht.
+            if (c.compare(m, letzterKnoten.getElement()) == 0) {
+                matchSize++;
+            }
+        }
+        return matchSize; //Die Anzahl der erfolgreichen Vergleiche wird zurückgegeben.
+    }
+
+    public IMember[] toArray() {
+
+        IMember[] array = new IMember[this.size()]; //Erstellt ein Array der benötigten Größe
+        //Wenn es keine Elemente gibt, wird ein leeres Array zurückgegeben.
+        if (this.startknoten == null) {
+            return array;
+        }
+        int index = 0;
+
+        Knoten letzterKnoten = this.startknoten;
+        array[index] = letzterKnoten.getElement();
+        while (letzterKnoten.getNext() != null) { //Liste wird durchlaufen und jedes Element dem Array hinzugefügt.
+            index++;
+            letzterKnoten = letzterKnoten.getNext();
+            array[index] = letzterKnoten.getElement();
+        }
+        return array;
+    }
+
+    public String toString() {
+
+        String auflistung = "";
+
+        if (this.startknoten == null) {
+            return auflistung;
+        }
+        Knoten letzterKnoten = this.startknoten;
+        auflistung += letzterKnoten.getElement().toString();
+
+        //Liste wird durchlaufen und alle Elemente werden "toStringed" und dem String hinzugefügt.
+        while (letzterKnoten.getNext() != null) {
+            letzterKnoten = letzterKnoten.getNext();
+            auflistung += "\n";
+            auflistung += letzterKnoten.getElement().toString();
+        }
+        return auflistung;
+    }
+
+}

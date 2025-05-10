@@ -1,0 +1,36 @@
+package de.ostfalia.aud.ss25.base;
+
+import de.ostfalia.aud.ss25.a0.Member;
+import de.ostfalia.aud.ss25.a1.ManagementA1;
+import de.ostfalia.aud.ss25.a2.AlgoArrayList;
+import de.ostfalia.aud.ss25.a2.ManagementA2;
+import de.ostfalia.aud.ss25.comparator.ComparatorId;
+
+import java.io.IOException;
+
+import static de.ostfalia.aud.ss25.base.Group.STUDENT;
+
+public class Test {
+
+    public static void main(String[] args) throws IOException {
+
+
+        ManagementA2 test = new ManagementA2("C:/Users/Rick/Downloads/10_member (1).csv");
+        //System.out.println(test.insert(new Member("GI-109776;1994-03-23;Reniek;Otto;STUDENT;true")));
+        //System.out.println(test.insert(new Member("GI-100370;1988-09-03;Braunschweig;Leucio;EMERITUS;false")));
+        System.out.println(test.toString());
+        for (IMember s : test.toArray()){
+            System.out.println(s.toString());
+        }
+
+
+        //ManagementA2 test = new ManagementA2("C:/Users/Rick/Downloads/40k_member.csv");
+        //System.out.println(test.search("GI-109776"));
+
+
+        //ChronoLOG c = new ChronoLOG("C:/Users/Rick/Downloads/40k_member.csv", "C:/Users/Rick/Downloads/40k_keys.csv");
+        //c.measureTimeSearch(new ManagementA1("C:/Users/Rick/Downloads/40k_member.csv"));
+        //c.measureTimePaste(new ManagementA1("C:/Users/Rick/Downloads/40k_member.csv"));
+
+    }
+}
