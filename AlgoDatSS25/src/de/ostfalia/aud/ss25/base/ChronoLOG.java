@@ -27,6 +27,7 @@ public class ChronoLOG {
             keys[index] = line;
             index++;
         }
+        reader.close();
     }
 
     public void measureTimeSearch() throws IOException {

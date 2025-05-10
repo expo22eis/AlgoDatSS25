@@ -12,6 +12,4 @@ public class ComparatorGroup implements Comparator<IMember> {
 
         return m1.getGroup().compareTo(m2.getGroup());
     }
-
-
 }

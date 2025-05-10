@@ -8,7 +8,7 @@ import java.util.Comparator;
  *
  * Bitte beachten:
  *
- * @param <E> Der hier generische Datentyp E wird in der entsprechenden
+ * @param <IMember> Der hier generische Datentyp E wird in der entsprechenden
  * Implementierung der Datenstruktur durch IMember ersetzt.
  *
  * @author D. Dick

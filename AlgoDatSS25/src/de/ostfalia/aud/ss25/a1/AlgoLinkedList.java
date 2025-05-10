@@ -2,7 +2,6 @@ package de.ostfalia.aud.ss25.a1;
 
 import de.ostfalia.aud.ss25.base.IAlgoCollection;
 import de.ostfalia.aud.ss25.base.IMember;
-import de.ostfalia.aud.ss25.base.Knoten;
 
 import java.util.Comparator;
 
@@ -23,17 +22,17 @@ public class AlgoLinkedList implements IAlgoCollection<IMember> {
             size = 1;
             return true;
         }
-        Knoten letzterKnoten = this.startknoten;
-        while (letzterKnoten.getNext() != null) { //Geht solange die Liste durch, bis es keinen nächsten Knoten gibt.
-            letzterKnoten = letzterKnoten.getNext();
+        Knoten currentKnoten = this.startknoten;
+        while (currentKnoten.getNext() != null) { //Geht solange die Liste durch, bis es keinen nächsten Knoten gibt.
+            currentKnoten = currentKnoten.getNext();
         }
-        letzterKnoten.setNext(new Knoten(m)); //Dann wird dem letzten Knoten ein neuer Knoten angehängt.
+        currentKnoten.setNext(new Knoten(m)); //Dann wird dem letzten Knoten ein neuer Knoten angehängt.
         size++;
         return true;
     }
-
-    public boolean remove2(IMember m){
-        if (this.startknoten == null){
+    
+    /*  public boolean remove2(IMember m){
+            if (this.startknoten == null){
             return false;
         }
         Knoten k = startknoten;
@@ -46,8 +45,7 @@ public class AlgoLinkedList implements IAlgoCollection<IMember> {
                 if (k.getNext().getNext() == null){
                     k.setNext(null);
                     return true;
-                }
-                else{
+                }else{
                     k.setNext(k.getNext().getNext());
                     return true;
                 }
@@ -55,55 +53,50 @@ public class AlgoLinkedList implements IAlgoCollection<IMember> {
         }
         return false;
     }
+     */
+
+
+
+    
     public boolean remove(IMember m) {
 
-        Knoten letzterKnoten = this.startknoten;
+        Knoten currentKnoten = this.startknoten;
 
-        if (letzterKnoten.getElement().equals(m)) {
+        if (currentKnoten.getElement().equals(m)) {
             this.startknoten = this.startknoten.getNext();
             this.size--;
             return true;
         }
-        while (letzterKnoten.getNext() != null) {  //Liste wird durchgegangen
+        while (currentKnoten.getNext() != null) {  //Liste wird durchgegangen
 
-            if (letzterKnoten.getNext().getElement().equals(m)) { //Wenn der nächste Knoten den gesuchten Member enthält...
+            if (currentKnoten.getNext().getElement().equals(m)) { //Wenn der nächste Knoten den gesuchten Member enthält...
 
                 //Wird der übernächste Member an den aktuellen gehangen, sodass der gesuchte Member entfernt wird.
-                if (letzterKnoten.getNext().getNext() == null){
-                    letzterKnoten.setNext(null);
+                if (currentKnoten.getNext().getNext() == null){
+                    currentKnoten.setNext(null);
                     this.size--;
                     return true;
                 }
-                letzterKnoten.setNext(letzterKnoten.getNext().getNext());
+                currentKnoten.setNext(currentKnoten.getNext().getNext());
                 this.size--; //Wenn ein Element entfernt wurde, verringert sich auch die Größe der Liste um 1.
                 return true;
             }
 
-            letzterKnoten = letzterKnoten.getNext();
+            currentKnoten = currentKnoten.getNext();
         }
 
         return false;
     }
 
     public IMember get(IMember m) {
+        Knoten current = this.startknoten;
 
-        if (this.startknoten == null) {
-            return null;
-        }
-        if (this.startknoten.getElement().equals(m)) { //Wenn der Startknoten gesucht ist,
-            return this.startknoten.getElement();//wird dieser zurückgegeben
-        }
-        Knoten letzterKnoten = this.startknoten;
-        while (letzterKnoten.getNext() != null) { //Liste wird durchlaufen
-            if (letzterKnoten.getElement().equals(m)) { //Wenn der Knoten das gesuchte Element enthält,
-                return letzterKnoten.getElement(); //wird dieses zurückgegeben
+        while (current != null) {
+            if (current.getElement().equals(m)) {
+                return current.getElement();
             }
-            letzterKnoten = letzterKnoten.getNext();
-        }
-        if (letzterKnoten.getElement().equals(m)){
-            return letzterKnoten.getElement();
-        }
-        return null; //ansonsten wird null zurückgegeben
+            current = current.getNext();
+        }return null;
     }
 
     public IAlgoCollection<IMember> getAll(Comparator<IMember> c, IMember m) {

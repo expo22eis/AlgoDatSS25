@@ -31,7 +31,8 @@ public class ManagementA1 implements IManagement {
         BufferedReader reader = new BufferedReader(new FileReader(dateiName));
         String line;
         //Prüft, ob die ersten 3 Chars "key" sind, also, ob es sich um einen Header handelt.
-        if (!((line = reader.readLine()).startsWith("key"))){
+        line = reader.readLine();
+        if (!(line.startsWith("key"))){
             IMember m = new Member(line);
             collection.add(m);
         }
@@ -40,6 +41,7 @@ public class ManagementA1 implements IManagement {
             IMember m = new Member(line);
             collection.add(m);
         }
+        reader.close();
     }
 
     public boolean insert(IMember member) {

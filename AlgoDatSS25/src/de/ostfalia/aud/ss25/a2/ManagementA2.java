@@ -33,9 +33,9 @@ public class ManagementA2 implements IManagement {
     public ManagementA2(String dateiName) throws IOException {
         this.list = new AlgoArrayList();
         BufferedReader reader = new BufferedReader(new FileReader(dateiName));
-        String line;
+        String line = reader.readLine();
         //Prüft, ob die ersten 3 Chars "key" sind, also, ob es sich um einen Header handelt.
-        if (!((line = reader.readLine()).startsWith("key"))) {
+        if (!(line.startsWith("key"))) {
             IMember m = new Member(line);
             this.list.add(m);
         }
@@ -45,6 +45,7 @@ public class ManagementA2 implements IManagement {
             this.list.add(m);
         }
         this.list.sort(new ComparatorId());
+        reader.close();
     }
 
     public boolean insert(IMember member) {

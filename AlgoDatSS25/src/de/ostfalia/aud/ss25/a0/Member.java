@@ -4,6 +4,7 @@ import de.ostfalia.aud.ss25.base.Group;
 import de.ostfalia.aud.ss25.base.IMember;
 import java.time.LocalDate; //Importiert LocalDate, um später darauf zuzugreifen.
 
+
 /**
  * @author Rick Kunze, Robin Iffland
  * @version 1.0
@@ -31,7 +32,7 @@ public class Member implements IMember {
     }
 
     /**
-     * @param id,
+     * @param id
      * @param joiningdate
      * @param surname
      * @param forename
@@ -102,19 +103,7 @@ public class Member implements IMember {
             return this.getId().equalsIgnoreCase(objectToCompare.getId());
         }
         return false;
-
     }
-    @Override
-        public int hashCode() {
-            int code = 0;
-            for(int i= 0; i< surname.length(); i++){
-                code += (int) surname.charAt(i)* weight(surname.length()-1 -i) *2;
-            }
-            for(int j= 0; j< forename.length(); j++){
-                code += (int) forename.charAt(j) * weight(forename.length()-1 -j);
-            }return code;
-        }
-
 
     @Override   //Gibt die Daten im CSV-Format zurück.
     /**
@@ -136,11 +125,11 @@ public class Member implements IMember {
      * @return Integer (wird in späterer Aufgabe implementiert)
      */
     public int compareTo(IMember o) {
-
         return id.compareTo(o.getId());
     }
 
-    private double weight(int index){
-        return index * index;
+    @Override
+    public int hashCode(){
+        throw new UnsupportedOperationException("Unused method in Member.");
     }
 }

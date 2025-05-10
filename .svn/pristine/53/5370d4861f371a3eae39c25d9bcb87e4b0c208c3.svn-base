@@ -21,7 +21,7 @@ public class Member implements IMember {
     /**
      * @param line (Übergibt eine eingelesene Zeile, welche die Daten zu jeweils einem Member enthält)
      */
-    public Member(String line) {
+    public Member(String line){
         String[] sections = line.split(";");    //Teilt den übergebenen String in die einzelnen Daten auf, Trennzeichen Semikolon.
         this.id = sections[0].trim();       //ID wird einfach als String übernommen.
         this.joiningdate = LocalDate.parse(sections[1].trim()); //Der Datum-String wird in ein Datum konvertiert.
@@ -74,7 +74,7 @@ public class Member implements IMember {
         return this.newsletter;
     }
 
-    @Override
+    @Override 
     /**
      * @param o (Stellt ein anderes Member-Objekt dar)
      * @return boolean (Prüft auf Gleichheit der ID und gibt den entsprechenden Boolean-Wert zurück)
@@ -105,5 +105,8 @@ public class Member implements IMember {
      */
     public int compareTo(IMember o) {
         throw new UnsupportedOperationException("Unimplemented method 'compareTo'"); //Funktion wird in späterer Aufgabe implementiert.
+    }
+    public int hashCode(){ 
+        return 0;
     }
 }

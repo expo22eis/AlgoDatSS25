@@ -1,29 +1,27 @@
-package de.ostfalia.aud.ss25.base;
+package de.ostfalia.aud.ss25.a1;
+
+import de.ostfalia.aud.ss25.base.IMember;
 
 public class Knoten {
 
     private IMember element;
     private Knoten next;
 
-    public Knoten(IMember m) {
+    protected Knoten(IMember m) {
 
         this.element = m;
         this.next = null;
     }
 
-    public void setNext(Knoten k) {
+    protected void setNext(Knoten k) {
         this.next = k;
     }
 
-    public Knoten getNext() {
+    protected Knoten getNext() {
         return this.next;
     }
 
-    public IMember getElement() {
-
-        if (this == null){
-            return null;
-        }
+    protected IMember getElement() {
         return this.element;
     }
 }

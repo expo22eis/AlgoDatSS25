@@ -1,7 +1,6 @@
 package de.ostfalia.aud.ss25.a3;
 
 import de.ostfalia.aud.ss25.a0.Member;
-import de.ostfalia.aud.ss25.a2.AlgoArrayList;
 import de.ostfalia.aud.ss25.base.Group;
 import de.ostfalia.aud.ss25.base.IAlgoCollection;
 import de.ostfalia.aud.ss25.base.IManagement;
@@ -41,9 +40,9 @@ public class ManagementA3 implements IManagement {
         this.treeGroup = new AlgoTreeMap(new ComparatorGroup());
 
         BufferedReader reader = new BufferedReader(new FileReader(dateiName));
-        String line;
+        String line = reader.readLine();
         //Prüft, ob die ersten 3 Chars "key" sind, also, ob es sich um einen Header handelt.
-        if (!((line = reader.readLine()).startsWith("key"))) {
+        if (!(line.startsWith("key"))) {
             IMember m = new Member(line);
             this.treeID.add(m);
             this.treeName.add(m);
@@ -55,7 +54,7 @@ public class ManagementA3 implements IManagement {
             this.treeID.add(m);
             this.treeName.add(m);
             this.treeGroup.add(m);
-        }
+        }reader.close();
     }
 
     @Override
