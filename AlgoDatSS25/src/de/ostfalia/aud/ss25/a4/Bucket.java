@@ -26,6 +26,11 @@ public class Bucket<K, V extends IAlgoCollection<IMember>> implements IAlgoColle
 
     @Override
     public boolean add(IMember m) {
+        if (values instanceof AlgoArrayList list) {
+            if (list.contains(m)) {
+                return false;
+            }
+        }
         return values.add(m);
     }
 

@@ -18,13 +18,11 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
         if (m == null) {
             return false;
         }
-
         if (this.arrayLastIndex >= this.array.length) {
             doubleSize();
         }
 
-        this.array[this.arrayLastIndex] = m;
-        arrayLastIndex++;
+        this.array[this.arrayLastIndex++] = m;
         this.isSorted = false;
         return true;
     }
@@ -40,15 +38,17 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
     }
 
     public boolean remove(IMember m) {
-
-        if (!isSorted) {
-            this.sort(new ComparatorId());
+        int index = -1;
+        for (int i = 0; i < arrayLastIndex; i++) {
+            if (array[i].equals(m)) {
+                index = i;
+                break;
+            }
         }
-        int targetIndex = findElement(m, this.sortCriteria);
-        if (targetIndex == -1) {
+        if (index == -1) {
             return false;
         }
-        this.fillGap(targetIndex);
+        fillGap(index);
         return true;
     }
 
@@ -88,11 +88,10 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
 
     @Override
     public int indexOf(IMember m) {
-        if (!isSorted) {
-            this.sort(new ComparatorId());
+        if (!isSorted || !sortCriteria.getClass().equals(ComparatorId.class)) {
+            sort(new ComparatorId());
         }
-        int targetIndex = findElement(m, this.sortCriteria);
-        return targetIndex;
+        return findElement(m, sortCriteria);
     }
 
     @Override
@@ -112,6 +111,8 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
     @Override
     public void sort(Comparator<IMember> c) {
         if (this.arrayLastIndex < 2) {
+            this.isSorted = true;
+            this.sortCriteria = c;
             return;
         }
 
@@ -119,7 +120,6 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
         System.arraycopy(this.array, 0, toSort, 0, this.arrayLastIndex);
 
         IMember[] sorted = mergeSort(toSort, c);
-
         System.arraycopy(sorted, 0, this.array, 0, sorted.length);
         this.isSorted = true;
         this.sortCriteria = c;
@@ -288,6 +288,15 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
         int lastIndex = findLastIndex(m, c);
 
         return lastIndex - firstIndex + 1;
+    }
+
+    public boolean contains(IMember m) {
+        for (int i = 0; i < arrayLastIndex; i++) {
+            if (array[i].equals(m)){
+                 return true;
+            }
+        }
+        return false;
     }
 
 }
