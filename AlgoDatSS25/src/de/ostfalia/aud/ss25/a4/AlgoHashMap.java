@@ -9,6 +9,7 @@ import de.ostfalia.aud.ss25.comparator.ComparatorName;
 
 
 import java.util.Comparator;
+import java.util.function.Function;
 
 public class AlgoHashMap implements IAlgoCollection<IMember>{
 
@@ -61,19 +62,47 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
     }
 
     public IMember get(IMember m) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        int hash = this.computeHashCode(m);
+        int index = (hash & Integer.MAX_VALUE) % this.bucketList.length;
+
+        if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
+            return this.bucketList[index].get(m);
+        }else {
+            return linearSondieren(m, index, hash, t -> t.get(m));
+        }
     }
 
     
     public IAlgoCollection<IMember> getAll(Comparator<IMember> c, IMember m) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        int hash = this.computeHashCode(m);
+        int index = (hash & Integer.MAX_VALUE) % this.bucketList.length;
+
+        if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
+            return this.bucketList[index].getAll(this.comparator, m);
+        }else {
+            IAlgoCollection<IMember> r = linearSondieren(m, index, hash, t -> t.getAll(this.comparator, m));
+            if (r == null){
+                return new AlgoArrayList();
+            }
+            return r;
+        }
     }
 
     
     public int indexOf(IMember m) {
-        throw new UnsupportedOperationException("Unimplemented method 'indexOf'");
+        int hash = this.computeHashCode(m);
+        int index = (hash & Integer.MAX_VALUE) % this.bucketList.length;
+
+        if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
+            return this.bucketList[index].indexOf(m);
+        }else {
+            Integer r = linearSondieren(m, index, hash, t -> t.indexOf(m));
+            if (r == null){
+                return -1;
+            }else{
+                return r;
+            }
+        }
     }
 
     
@@ -110,6 +139,22 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
         }return all.toArray();
     }
     
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+
+        for (int i = 0; i< this.bucketList.length; i++){
+            if (bucketList[i] == null){
+                continue;
+            }
+            s.append(String.format("Hashcode: %d. Erwartet an: %d, tatsächlich an: %d. Enthält: \n %s\n",
+                    bucketList[i].getKey(),
+                    ((bucketList[i].getKey() & Integer.MAX_VALUE) % this.bucketList.length),
+                    i,
+                    bucketList[i].getValues().toString()));
+        }
+        return s.toString();
+    }
+    
     private int computeHashCode(IMember m){
         if (comparator instanceof ComparatorId){
             return m.getId().hashCode();
@@ -144,5 +189,18 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
             }
         }
         this.bucketList = bucketListNeu;
+    }
+
+    private <T> T linearSondieren(IMember m, int startIndex, int hash, Function<Bucket<Integer, IAlgoCollection<IMember>>, T> func) {
+        int index = (startIndex + 1) % bucketList.length;
+
+        while (index != startIndex) {
+            if (bucketList[index] != null && bucketList[index].getKey().equals(hash)) {
+                T result = func.apply(bucketList[index]);
+                return result;
+            }
+            index = (index + 1) % bucketList.length;
+        }
+        return null;
     }
 }
