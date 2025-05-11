@@ -140,12 +140,12 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
 
         for (Bucket<Integer, IAlgoCollection<IMember>> bucket : bucketList) {
             if (bucket != null) {
-                IMember[] array = bucket.toArray(); // Annahme: Bucket gibt ein Array aus
+                IMember[] array = bucket.toArray();
                 for (IMember m : array) {
                     all.add(m);
                 }
             }
-        }return all.toArray();
+        }return all.toArray().sort(comparator);
     }
     
     public String toString(){
