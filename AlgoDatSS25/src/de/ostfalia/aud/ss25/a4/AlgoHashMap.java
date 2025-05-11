@@ -21,30 +21,35 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
     public AlgoHashMap(Comparator<IMember> c, int size){
         this.comparator = c;
         bucketList = new Bucket[size];
+        capacity = 0;
     }
     
     public boolean add(IMember m) {
-        if (capacity / bucketList.length  > 0.8){
-            resizeArray();
-        }
-
-        int hashCode = computeHashCode(m);
-        int index = (hashCode & Integer.MAX_VALUE) % bucketList.length;
-
-        for (int i= 0; i< bucketList.length; i++){
-            if(bucketList[index] == null){
-                bucketList[index] = new Bucket<Integer, IAlgoCollection<IMember>>(hashCode);
-                bucketList[index].add(m);
-                capacity++;
-                return true;
-            }else if(bucketList[index].getKey().equals(hashCode)){
-                bucketList[index].add(m);
-                return true;
-            }else{
-                index = (index + 1) % bucketList.length;
-            }
-        }return false;
+    if ((double) capacity / bucketList.length > 0.8) {
+        resizeArray();
     }
+
+    int hashCode = computeHashCode(m);
+    int index = (hashCode & Integer.MAX_VALUE) % bucketList.length;
+
+    for (int i = 0; i < bucketList.length; i++) {
+        if (bucketList[index] == null) {
+            bucketList[index] = new Bucket<>(hashCode);
+            bucketList[index].add(m);
+            capacity++;
+            return true;
+        } else if (bucketList[index].getKey().equals(hashCode)) {
+            if (bucketList[index].indexOf(m) >= 0) {
+                return false;
+            }
+            bucketList[index].add(m);
+            return true;
+        } else {
+            index = (index + 1) % bucketList.length;
+        }
+    }
+    return false;
+}
 
     public boolean remove(IMember m) {
         int hashCode = computeHashCode(m);
@@ -67,7 +72,8 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
 
         if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
             return this.bucketList[index].get(m);
-        }else {
+        }
+        else {
             return linearSondieren(m, index, hash, t -> t.get(m));
         }
     }
@@ -79,7 +85,8 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
 
         if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
             return this.bucketList[index].getAll(this.comparator, m);
-        }else {
+        }
+        else {
             IAlgoCollection<IMember> r = linearSondieren(m, index, hash, t -> t.getAll(this.comparator, m));
             if (r == null){
                 return new AlgoArrayList();
@@ -94,14 +101,18 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
         int index = (hash & Integer.MAX_VALUE) % this.bucketList.length;
 
         if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
-            return this.bucketList[index].indexOf(m);
+            return index;
         }else {
-            Integer r = linearSondieren(m, index, hash, t -> t.indexOf(m));
-            if (r == null){
-                return -1;
-            }else{
-                return r;
+
+            int indexSondieren = (index + 1) % bucketList.length;
+
+            while (indexSondieren != index) {
+                if (bucketList[indexSondieren] != null && bucketList[indexSondieren].getKey().equals(hash)) {
+                    return indexSondieren;
+                }
+                indexSondieren = (indexSondieren + 1) % bucketList.length;
             }
+            return -1;
         }
     }
 
@@ -131,12 +142,12 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
 
         for (Bucket<Integer, IAlgoCollection<IMember>> bucket : bucketList) {
             if (bucket != null) {
-                IMember[] array = bucket.toArray(); // Annahme: Bucket gibt ein Array aus
+                IMember[] array = bucket.toArray();
                 for (IMember m : array) {
                     all.add(m);
                 }
             }
-        }return all.toArray();
+        }return all.toArray().sort(comparator);
     }
     
     public String toString(){
