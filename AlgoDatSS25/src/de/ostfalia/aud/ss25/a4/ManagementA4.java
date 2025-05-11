@@ -62,7 +62,7 @@ public class ManagementA4 implements IManagement{
     public boolean insert(IMember member) {
         if (tableID.add(member)){
             tableGroup.add(member);
-            tableGroup.add(member);
+            tableName.add(member);
             return true;
         }
         return false;
@@ -70,10 +70,13 @@ public class ManagementA4 implements IManagement{
 
     @Override
     public boolean remove(String id) {
-        Member member = new Member(id, null, null, null, null, false);
-        if (tableID.remove(member)){
+
+        IMember member = tableID.get(new Member(id, null, null, null, null, false));
+
+        if (tableID.get(member) != null){
+            tableID.remove(member);
             tableGroup.remove(member);
-            tableGroup.remove(member);
+            tableName.remove(member);
             return true;
         }
         return false;
@@ -112,6 +115,11 @@ public class ManagementA4 implements IManagement{
     @Override
     public IMember[] toArray() {
         return tableID.toArray();
+    }
+
+    @Override
+    public String toString() {
+        return tableID.toString();
     }
     
 }

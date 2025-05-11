@@ -25,46 +25,54 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
     }
     
     public boolean add(IMember m) {
-    if ((double) capacity / bucketList.length > 0.8) {
-        resizeArray();
-    }
-
-    int hashCode = computeHashCode(m);
-    int index = (hashCode & Integer.MAX_VALUE) % bucketList.length;
-
-    for (int i = 0; i < bucketList.length; i++) {
-        if (bucketList[index] == null) {
-            bucketList[index] = new Bucket<>(hashCode);
-            bucketList[index].add(m);
-            capacity++;
-            return true;
-        } else if (bucketList[index].getKey().equals(hashCode)) {
-            if (bucketList[index].indexOf(m) >= 0) {
-                return false;
-            }
-            bucketList[index].add(m);
-            return true;
-        } else {
-            index = (index + 1) % bucketList.length;
+        if ((double) capacity / bucketList.length > 0.8) {
+            resizeArray();
         }
+
+        int hashCode = computeHashCode(m);
+        int index = (hashCode & Integer.MAX_VALUE) % bucketList.length;
+
+        for (int i = 0; i < bucketList.length; i++) {
+            if (bucketList[index] == null) {
+                bucketList[index] = new Bucket<>(hashCode);
+                bucketList[index].add(m);
+                capacity++;
+                return true;
+            } else if (bucketList[index].getKey().equals(hashCode)) {
+                if (bucketList[index].indexOf(m) >= 0) {
+                    return false;
+                }
+                bucketList[index].add(m);
+                capacity++;
+                return true;
+            } else {
+                index = (index + 1) % bucketList.length;
+            }
+        }
+        return false;
     }
-    return false;
-}
 
     public boolean remove(IMember m) {
         int hashCode = computeHashCode(m);
         int index = (hashCode & Integer.MAX_VALUE) % bucketList.length;
 
-        for(int i= 0; i< bucketList.length; i++){
-            if (bucketList[index] == null){
+        for (int i = 0; i < bucketList.length; i++) {
+            if (bucketList[index] == null) {
                 return false;
-            }else if(bucketList[index].getKey().equals(hashCode)){
-                return bucketList[index].remove(m);
-            }else{
+            } else if (bucketList[index].getKey().equals(hashCode)) {
+                boolean success = bucketList[index].remove(m);
+                if (success) {
+                    capacity--;
+                }
+                return success;
+            } else {
                 index = (index + 1) % bucketList.length;
             }
-        }return false;
+        }
+        return false;
     }
+
+
 
     public IMember get(IMember m) {
         int hash = this.computeHashCode(m);
@@ -84,7 +92,8 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
         int index = (hash & Integer.MAX_VALUE) % this.bucketList.length;
 
         if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
-            return this.bucketList[index].getAll(this.comparator, m);
+            //return this.bucketList[index].getAll(c, m);
+            return this.bucketList[index].getValues();
         }
         else {
             IAlgoCollection<IMember> r = linearSondieren(m, index, hash, t -> t.getAll(this.comparator, m));
@@ -101,16 +110,18 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
         int index = (hash & Integer.MAX_VALUE) % this.bucketList.length;
 
         if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
-            return this.bucketList[index].indexOf(m);
-        }
-        else {
-            Integer r = linearSondieren(m, index, hash, t -> t.indexOf(m));
-            if (r == null){
-                return -1;
+            return index;
+        }else {
+
+            int indexSondieren = (index + 1) % bucketList.length;
+
+            while (indexSondieren != index) {
+                if (bucketList[indexSondieren] != null && bucketList[indexSondieren].getKey().equals(hash)) {
+                    return indexSondieren;
+                }
+                indexSondieren = (indexSondieren + 1) % bucketList.length;
             }
-            else{
-                return r;
-            }
+            return -1;
         }
     }
 
@@ -145,7 +156,8 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
                     all.add(m);
                 }
             }
-        }return all.toArray().sort(comparator);
+        }all.sort(comparator);
+	    return all.toArray();
     }
     
     public String toString(){
@@ -165,40 +177,37 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
     }
     
     private int computeHashCode(IMember m){
+        if (m == null) {
+            return 0;
+        }
+        
         if (comparator instanceof ComparatorId){
             return m.getId().hashCode();
         }else if (comparator instanceof ComparatorGroup){
-            return m.getGroup().hashCode();
+            return m.getGroup().toString().hashCode();
         }else if (comparator instanceof ComparatorName){
             return (m.getSurname().concat(m.getForename())).hashCode();
         }
         return 0;
+        
     }
 
-    private void resizeArray(){
-        Bucket<Integer, IAlgoCollection<IMember>>[] bucketListNeu = new Bucket[this.bucketList.length*2];
+    private void resizeArray() {
+    Bucket<Integer, IAlgoCollection<IMember>>[] oldBuckets = this.bucketList;
+    this.bucketList = new Bucket[oldBuckets.length * 2];
+    this.capacity = 0;
 
-        for (int i = 0; i< this.bucketList.length; i++){
-            if (this.bucketList[i] == null){
-                continue;
-            }
-            int currentHash = this.bucketList[i].getKey();
-            int newIndex = (currentHash & Integer.MAX_VALUE) % bucketListNeu.length;
-            if (bucketListNeu[newIndex] == null){
-                bucketListNeu[newIndex] = this.bucketList[i];
-            }else{
-                int index = (newIndex + 1) % bucketListNeu.length;
-                while (index != newIndex){
-                    if (bucketListNeu[index] == null){
-                        bucketListNeu[index] = this.bucketList[i];
-                        break;
-                    }
-                    index = (index + 1) % bucketListNeu.length;
-                }
+    for (Bucket<Integer, IAlgoCollection<IMember>> bucket : oldBuckets) {
+        if (bucket == null) {
+            continue;
+        }
+
+        for (IMember m : bucket.getValues().toArray()) {
+            this.add(m);
             }
         }
-        this.bucketList = bucketListNeu;
     }
+
 
     private <T> T linearSondieren(IMember m, int startIndex, int hash, Function<Bucket<Integer, IAlgoCollection<IMember>>, T> func) {
         int index = (startIndex + 1) % bucketList.length;

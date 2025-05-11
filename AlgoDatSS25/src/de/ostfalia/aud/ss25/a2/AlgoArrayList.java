@@ -57,7 +57,7 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
         if (m == null) {
             return null;
         }
-        if (!this.isSorted || !(this.sortCriteria instanceof ComparatorId)) {
+        if (!this.isSorted || !this.sortCriteria.getClass().equals(ComparatorId.class)) {
             this.sort(new ComparatorId());
         }
 
@@ -75,7 +75,7 @@ public class AlgoArrayList implements IAlgoCollection<IMember> {
             this.sort(c);
         }
 
-        IMember[] foundElements = findAllElements(m, this.sortCriteria);
+        IMember[] foundElements = findAllElements(m, c);
 
         IAlgoCollection<IMember> list = new AlgoArrayList();
         for (IMember element : foundElements) {

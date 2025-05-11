@@ -2,7 +2,6 @@ package de.ostfalia.aud.ss25.a0;
 
 import de.ostfalia.aud.ss25.base.Group;
 import de.ostfalia.aud.ss25.base.IMember;
-
 import java.time.LocalDate; //Importiert LocalDate, um später darauf zuzugreifen.
 
 
@@ -129,8 +128,8 @@ public class Member implements IMember {
         return id.compareTo(o.getId());
     }
 
-    @Override
-    public int hashCode(){
-        throw new UnsupportedOperationException("Unused method in Member.");
+    @Override    
+    public int hashCode() {
+        return id.hashCode();
     }
 }
