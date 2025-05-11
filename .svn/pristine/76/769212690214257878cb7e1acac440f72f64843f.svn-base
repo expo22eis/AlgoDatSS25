@@ -1,0 +1,38 @@
+package de.ostfalia.aud.ss25.base;
+
+import de.ostfalia.aud.ss25.a0.Member;
+import de.ostfalia.aud.ss25.a3.ManagementA3;
+import de.ostfalia.aud.ss25.a4.ManagementA4;
+
+import java.io.IOException;
+
+public class Test {
+
+    public static void main(String[] args) throws IOException {
+
+
+        ManagementA4 test = new ManagementA4("C:/Users/Rick/Downloads/10_member.csv");
+
+
+        //System.out.println(test.members(Group.FULL).toArray().length);
+        System.out.println(test.remove("GI-109776"));
+        System.out.println(test.remove("GI-100370"));
+        System.out.println(test.remove("GI-100144"));
+        System.out.println(test.remove("GI-105031"));
+        System.out.println(test.remove("GI-108432"));
+        //System.out.println(test);
+
+        for (IMember m : test.members(Group.FULL).toArray()){
+
+           System.out.println(m);
+        }
+
+        //System.out.println(test.search("GI-109776"));
+
+
+        //ChronoLOG c = new ChronoLOG("C:/Users/Rick/Downloads/40k_member.csv", "C:/Users/Rick/Downloads/40k_keys.csv");
+        //c.measureTimeSearch();
+        //c.measureTimePaste();
+
+    }
+}
