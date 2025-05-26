@@ -80,8 +80,7 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
 
         if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
             return this.bucketList[index].get(m);
-        }
-        else {
+        }else {
             return linearSondieren(m, index, hash, t -> t.get(m));
         }
     }
@@ -94,8 +93,7 @@ public class AlgoHashMap implements IAlgoCollection<IMember>{
         if (this.bucketList[index] != null && this.bucketList[index].getKey().equals(hash)) {
             //return this.bucketList[index].getAll(c, m);
             return this.bucketList[index].getValues();
-        }
-        else {
+        }else {
             IAlgoCollection<IMember> r = linearSondieren(m, index, hash, t -> t.getAll(this.comparator, m));
             if (r == null){
                 return new AlgoArrayList();
